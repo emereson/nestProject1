@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePersonDto } from './dto/create-person.dto';
 import { UpdatePersonDto } from './dto/update-person.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PersonEntity } from './entities/person.entity';
+import { PersonEntity, PersonStatus } from './entities/person.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -19,18 +19,39 @@ export class PeopleService {
   }
 
   findAll() {
-    return `This action returns all people`;
+    return this.personEntity.find({ where: { status: PersonStatus.Active } });
   }
 
   async findOne(id: number) {
-    return this.personEntity.findOne(id);
+    const person = await this.personEntity.findOne({where:{ide_per:id,status:PersonStatus.Active}});
+    let res= {mes_age:"usuario no encontrado",sta_tus:false,met_dat:null};
+    if (person) {
+      res.mes_age="Usuario encontrado";
+      res.sta_tus=true;
+      res.met_dat=person;
+    }
+    return res;
+    
   }
 
-  update(id: number, updatePersonDto: UpdatePersonDto) {
-    return `This action updates a #${id} person`;
+  async update(id: number, updatePersonDto: UpdatePersonDto) {
+    const person = await this.personEntity.findOneById(id);
+    if (!person) {
+      throw new NotFoundException(`Person with ID ${id} not found`);
+    }
+
+    const updatedPerson = Object.assign(person, updatePersonDto);
+    return this.personEntity.save(updatedPerson);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} person`;
+  async remove(id: number) {
+    const person = await this.personEntity.findOneById(id);
+    if (!person) {
+      throw new NotFoundException(`Person with ID ${id} not found`);
+    }
+  
+    person.status = PersonStatus.Disable;
+    return this.personEntity.save(person);
   }
+  
 }

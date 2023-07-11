@@ -5,6 +5,8 @@ import { PeopleModule } from './people/people.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PersonEntity } from './people/entities/person.entity';
 import { ConfigModule } from '@nestjs/config';
+import { StudentModule } from './student/student.module';
+import { StudentEntity } from './student/entities/student.entity';
 
 @Module({
   imports: [
@@ -16,12 +18,13 @@ import { ConfigModule } from '@nestjs/config';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: '951312399',
-      database: 'project3',
-      entities: [PersonEntity],
+      password: '123456',
+      database: 'project2',
+      entities: [PersonEntity,StudentEntity],
       synchronize: true,
     }),
     PeopleModule,
+    StudentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

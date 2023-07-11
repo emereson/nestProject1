@@ -1,4 +1,6 @@
-import { IsString, IsDate } from 'class-validator';
+import { IsString, IsDate, IsEnum } from 'class-validator';
+import { PersonEntity, PersonStatus } from '../entities/person.entity';
+import { Entity } from 'typeorm';
 
 export class CreatePersonDto {
   @IsString()
@@ -18,4 +20,7 @@ export class CreatePersonDto {
 
   @IsString()
   img_per: string;
+
+  @IsEnum(PersonStatus)
+  status:PersonStatus
 }

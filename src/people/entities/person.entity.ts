@@ -1,5 +1,11 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
+export enum PersonStatus {
+  Active = 'active',
+  Disable = 'disable'
+}
+
+
 @Entity({ schema: 'siam', name: 'person' })
 export class PersonEntity {
   @PrimaryGeneratedColumn()
@@ -22,4 +28,12 @@ export class PersonEntity {
 
   @Column()
   img_per: string;
+
+  @Column({
+    type: 'enum',
+    enum: PersonStatus,
+    default: PersonStatus.Active
+  })
+  status: PersonStatus;
+  
 }
