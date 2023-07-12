@@ -15,12 +15,11 @@ export class CreatePersonDto {
   @IsString()
   nro_doc: string;
 
-  @IsDate()
+  @IsString()
   fch_nac: string;
 
-  @IsString()
   img_per: string;
 
-  @IsEnum(PersonStatus)
   status:PersonStatus
+  
 }

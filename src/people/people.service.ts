@@ -1,16 +1,21 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { CreatePersonDto } from './dto/create-person.dto';
 import { UpdatePersonDto } from './dto/update-person.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PersonEntity, PersonStatus } from './entities/person.entity';
 import { Repository } from 'typeorm';
 
+
 @Injectable()
-export class PeopleService {
+export class PeopleService implements OnModuleInit {
   constructor(
     @InjectRepository(PersonEntity)
     private personEntity: Repository<PersonEntity>,
   ) {}
+
+async onModuleInit(){
+  console.log(await this.personEntity.query(`select * from siam.person`));
+}
 
   async create(createPersonDto: CreatePersonDto) {
     return this.personEntity.save(

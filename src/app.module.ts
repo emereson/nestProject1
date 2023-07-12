@@ -19,7 +19,7 @@ import { StudentEntity } from './student/entities/student.entity';
       port: 5432,
       username: 'postgres',
       password: '123456',
-      database: 'project2',
+      database: 'project1',
       entities: [PersonEntity,StudentEntity],
       synchronize: true,
     }),
@@ -30,3 +30,4 @@ import { StudentEntity } from './student/entities/student.entity';
   providers: [AppService],
 })
 export class AppModule {}
+

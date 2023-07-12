@@ -36,4 +36,6 @@ export class PersonEntity {
   })
   status: PersonStatus;
   
+
+  
 }
